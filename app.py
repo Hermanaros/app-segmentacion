@@ -45,16 +45,19 @@ def clasificar_segmento(top3):
         "AHORRADOR": 0
     }
 
-    for atributo in top3:
+    pesos = [3, 2, 1] 
+    for i, atributo in enumerate(top3):
         texto = atributo.lower()
-        if any(x in texto for x in ["estilo", "tendencia", "vestirme para el éxito"]):
-            categorias["FASHIONISTA"] += 1
+        peso = pesos[i]
+        
+        if any(x in texto for x in ["estilo", "tendencia", "vestirme para el éxito"]): 
+            categorias["FASHIONISTA"] += peso
         if any(x in texto for x in ["verdadero yo", "identidad", "crear un estilo"]):
-            categorias["TRENDSETTER"] += 1
+            categorias["TRENDSETTER"] += peso
         if any(x in texto for x in ["comodidad", "desaparecer", "no me preocupo"]):
-            categorias["PRAGMÁTICO"] += 1
+            categorias["PRAGMÁTICO"] += peso
         if any(x in texto for x in ["aceptado", "parte del grupo", "respetado"]):
-            categorias["AHORRADOR"] += 1
+            categorias["AHORRADOR"] += peso
 
     return max(categorias, key=categorias.get)
 
