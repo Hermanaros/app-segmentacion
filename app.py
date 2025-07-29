@@ -7,10 +7,19 @@ st.set_page_config(page_title="Segmentador Actitudinal", layout="wide")
 # --- ESTILO PERSONALIZADO ---
 st.markdown("""
     <style>
-        html, body, [data-testid="stAppViewContainer"], [data-testid="stApp"], .main {
+        html, body, [data-testid="stAppViewContainer"], [data-testid="stApp"], 
+            .main {
             background-color: #121B5A !important;
             color: white !important;
         }
+            .segmento{
+            font-size: 48px;
+            font-weight: 900;
+            color: #FFC300;
+            margin-top: 10px;
+            margin-bottom: 30px;
+            }
+            
     </style>
 """, unsafe_allow_html=True)
 
@@ -52,17 +61,17 @@ def clasificar_segmento(top3):
 # --- LAYOUT PRINCIPAL ---
 logo_path = os.path.join("asset", "logo.png")  # ruta relativa del logo
 
-top = st.columns([0.8, 0.2])
-with top[0]:
-    st.markdown("### 🧭 Tu segmento es:")
-    if "ranking" in st.session_state and len(st.session_state.ranking) == 3:
-        segmento = clasificar_segmento(st.session_state.ranking)
-        st.markdown(f"<div class='segmento'>{segmento}</div>", unsafe_allow_html=True)
-    else:
-        st.markdown("*Selecciona 3 atributos para ver tu segmento.*")
-with top[1]:
-    if os.path.exists(logo_path):
-        st.image(logo_path, width=120)
+# Mostrar logo arriba del título
+if os.path.exists(logo_path):
+    st.image(logo_path, width=120)
+
+st.markdown("### 🧭 Tu segmento es:")
+if "ranking" in st.session_state and len(st.session_state.ranking) == 3:
+    segmento = clasificar_segmento(st.session_state.ranking)
+    st.markdown(f"<div class='segmento'>{segmento}</div>", unsafe_allow_html=True)
+else:
+    st.markdown("*Selecciona 3 atributos para ver tu segmento.*")
+
 
 st.markdown("---")
 
