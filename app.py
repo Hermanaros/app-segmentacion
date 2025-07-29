@@ -51,18 +51,18 @@ def clasificar_segmento(top3):
     for atributo in top3:
         texto = atributo.lower()
         if any(x in texto for x in ["estilo", "tendencia", "vestirme para el éxito"]):
-            categorias["FASHIONISTAS"] += 1
+            categorias["FASHIONISTA"] += 1
         if any(x in texto for x in ["verdadero yo", "identidad", "crear un estilo"]):
-            categorias["TRENDSETTERS"] += 1
+            categorias["TRENDSETTER"] += 1
         if any(x in texto for x in ["comodidad", "desaparecer", "no me preocupo"]):
-            categorias["PRAGMÁTICOS"] += 1
+            categorias["PRAGMÁTICO"] += 1
         if any(x in texto for x in ["aceptado", "parte del grupo", "respetado"]):
-            categorias["AHORRADORES"] += 1
+            categorias["AHORRADOR"] += 1
 
     return max(categorias, key=categorias.get)
 
 # --- LAYOUT PRINCIPAL ---
-logo_path = os.path.join("assets", "logo.png")  # ruta relativa del logo
+logo_path = os.path.join("asset", "logo.png")  # ruta relativa del logo
 
 top = st.columns([0.8, 0.2])
 with top[0]:
@@ -82,9 +82,9 @@ st.markdown("---")
 col1, col2 = st.columns(2)
 
 with col1:
-    st.markdown("## 🧩 Elige tus 3 atributos más importantes:")
+    st.markdown("## 🧩 Elige los 3 atributos más importantes respecto a tu vínculo con la moda:")
     seleccion = st.multiselect(
-        "Selecciona exactamente 3 atributos:",
+        "Selecciona 3 atributos, donde el 1ro es el MÁS importante:",
         options=atributos,
         max_selections=3,
         key="ranking"
@@ -98,4 +98,4 @@ with col2:
             st.markdown(f"**{i}.** {attr}")
         st.markdown("</div>", unsafe_allow_html=True)
     else:
-        st.info("Selecciona hasta 3 atributos a la izquierda.")
+        st.info("Selecciona hasta 3 atributos")
