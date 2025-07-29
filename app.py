@@ -12,7 +12,7 @@ st.markdown("""
         }
         .main {
             background-color: #121B5A;
-            color: white;
+            color: blue;
         }
         .segmento {
             font-size: 30px;
@@ -74,7 +74,7 @@ with top[0]:
         st.markdown("*Selecciona 3 atributos para ver tu segmento.*")
 with top[1]:
     if os.path.exists(logo_path):
-        st.image(logo_path, use_column_width="auto")
+        st.image(logo_path, width=120)
 
 st.markdown("---")
 
