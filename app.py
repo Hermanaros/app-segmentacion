@@ -7,25 +7,13 @@ st.set_page_config(page_title="Segmentador Actitudinal", layout="wide")
 # --- ESTILO PERSONALIZADO ---
 st.markdown("""
     <style>
-        body {
-            background-color: #121B5A;
-        }
-        .main {
-            background-color: #121B5A;
-            color: blue;
-        }
-        .segmento {
-            font-size: 30px;
-            font-weight: bold;
-            color: #FFC300;
-        }
-        .ranking-box {
-            background-color: #1A237E;
-            padding: 15px;
-            border-radius: 10px;
+        html, body, [data-testid="stAppViewContainer"], [data-testid="stApp"], .main {
+            background-color: #121B5A !important;
+            color: white !important;
         }
     </style>
 """, unsafe_allow_html=True)
+
 
 # --- ATRIBUTOS A ORDENAR ---
 atributos = [
