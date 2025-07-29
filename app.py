@@ -1,6 +1,33 @@
 import streamlit as st
+import os
 
-# Atributos disponibles
+# --- CONFIG GENERAL ---
+st.set_page_config(page_title="Segmentador Actitudinal", layout="wide")
+
+# --- ESTILO PERSONALIZADO ---
+st.markdown("""
+    <style>
+        body {
+            background-color: #121B5A;
+        }
+        .main {
+            background-color: #121B5A;
+            color: white;
+        }
+        .segmento {
+            font-size: 30px;
+            font-weight: bold;
+            color: #FFC300;
+        }
+        .ranking-box {
+            background-color: #1A237E;
+            padding: 15px;
+            border-radius: 10px;
+        }
+    </style>
+""", unsafe_allow_html=True)
+
+# --- ATRIBUTOS A ORDENAR ---
 atributos = [
     "Expresar mi verdadero yo; explorar nuevos estilos, marcar tendencia",
     "Jugar con mi identidad sin seguir un código de vestimenta social",
@@ -12,35 +39,13 @@ atributos = [
     "Vestirme para el éxito, busco ser respetado/admirado"
 ]
 
-st.set_page_config(page_title="Segmentador Attitudinal", layout="wide")
-
-# 💅 Estética general
-st.markdown("""
-<style>
-    .main {
-        background-color: #1e1e1e;
-        color: white;
-    }
-    .segmento {
-        font-size: 30px;
-        font-weight: bold;
-        color: #FFC300;
-    }
-    .ranking-box {
-        background-color: #333;
-        padding: 15px;
-        border-radius: 10px;
-    }
-</style>
-""", unsafe_allow_html=True)
-
-# 🧠 Función de clasificación por top 3
+# --- FUNCIÓN CLASIFICACIÓN ---
 def clasificar_segmento(top3):
     categorias = {
-        "FASHIONISTAS": 0,
-        "TRENDSETTERS": 0,
-        "PRAGMÁTICOS": 0,
-        "AHORRADORES": 0
+        "FASHIONISTA": 0,
+        "TRENDSETTER": 0,
+        "PRAGMÁTICO": 0,
+        "AHORRADOR": 0
     }
 
     for atributo in top3:
@@ -56,22 +61,28 @@ def clasificar_segmento(top3):
 
     return max(categorias, key=categorias.get)
 
-# 🧭 Resultado arriba si hay selección válida
-ranking = st.session_state.get("ranking", [])
+# --- LAYOUT PRINCIPAL ---
+logo_path = os.path.join("assets", "logo.png")  # ruta relativa del logo
 
-if "ranking" not in st.session_state:
-    st.session_state.ranking = []
+top = st.columns([0.8, 0.2])
+with top[0]:
+    st.markdown("### 🧭 Tu segmento es:")
+    if "ranking" in st.session_state and len(st.session_state.ranking) == 3:
+        segmento = clasificar_segmento(st.session_state.ranking)
+        st.markdown(f"<div class='segmento'>{segmento}</div>", unsafe_allow_html=True)
+    else:
+        st.markdown("*Selecciona 3 atributos para ver tu segmento.*")
+with top[1]:
+    if os.path.exists(logo_path):
+        st.image(logo_path, use_column_width="auto")
 
-if len(st.session_state.ranking) == 3:
-    segmento = clasificar_segmento(st.session_state.ranking)
-    st.markdown(f"### 🧭 Tu segmento es: <span class='segmento'>{segmento}</span>", unsafe_allow_html=True)
-    st.markdown("---")
+st.markdown("---")
 
-# 🎯 Layout de columnas (izquierda: selección, derecha: ranking)
+# --- UI INTERACTIVA ---
 col1, col2 = st.columns(2)
 
 with col1:
-    st.markdown("## 🧩 Elige tus **3 atributos** más importantes:")
+    st.markdown("## 🧩 Elige tus 3 atributos más importantes:")
     seleccion = st.multiselect(
         "Selecciona exactamente 3 atributos:",
         options=atributos,
@@ -88,4 +99,3 @@ with col2:
         st.markdown("</div>", unsafe_allow_html=True)
     else:
         st.info("Selecciona hasta 3 atributos a la izquierda.")
-
